@@ -4,9 +4,8 @@
 package com.automation.step_definitions;
 
 import com.automation.pages.ContactsPage;
-import com.automation.pages.DashboardPage;
+import com.automation.pages.SignInPage;
 import com.automation.utilities.BrowserUtils;
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -51,7 +50,7 @@ public class NavigationMenuStepDefs {
     @When("the user navigates to {string} {string}")
     public void the_user_navigates_to(String tab, String module) {
 
-        new DashboardPage().navigateToModule(tab, module);
+        new SignInPage().navigateToModule(tab, module);
     }
 
     @Then("default page number should be {int}")

@@ -11,8 +11,10 @@ import org.openqa.selenium.TakesScreenshot;
 public class Hooks {
     @Before
     public void setUp(){
-        System.out.println("\tThis is coming from before");
+
+        Driver.get().manage().window().maximize();
     }
+
 
     @After
     public void tearDown(Scenario scenario) {
@@ -24,18 +26,6 @@ public class Hooks {
         Driver.closeDriver();
     }
 
-    @Before("@db")
-    public void setUpdb(){
 
-        System.out.println("\tconnecting to database...");
-        DBUtils.createConnection();
-    }
-//@db tags are triggered if we write them on a scenario just like the other tags
-    @After("@db")
-    public void closeDb(){
-        System.out.println("\tdisconnecting to database...");
-        DBUtils.destroy();
-
-    }
 
 }
