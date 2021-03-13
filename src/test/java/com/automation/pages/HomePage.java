@@ -20,7 +20,11 @@ public class HomePage {
     @FindBy(xpath="(//a[@class='product_img_link']/img)[1]")
     public WebElement product1;
 
+    @FindBy(xpath="//select[@id='group_1']")
+    public WebElement sizes;
 
+    @FindBy(xpath="//span[normalize-space()='Add to cart']")
+    public WebElement addToCart;
 
 
 

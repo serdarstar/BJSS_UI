@@ -7,7 +7,9 @@ import com.automation.utilities.Driver;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -20,12 +22,21 @@ public class HomePageSteps extends BasePage {
 
         Actions actions=new Actions(Driver.get());
         actions.moveToElement(homePage.product1).perform();
-
         homePage.quickView.click();
+        Thread.sleep(3000);
+    }
 
+    @When("the user changes the size of the item")
+    public void theUserChangesTheSizeOfTheItem() {
 
-        Thread.sleep(10000);
+        Select select=new Select(homePage.sizes);
+        List <WebElement> sizes = select.getOptions();
+        select.selectByVisibleText("M");
 
+    }
 
+    @When("the user adds the item to cart")
+    public void theUserAddsTheItemToCart() {
+        homePage.addToCart.click();
     }
 }
