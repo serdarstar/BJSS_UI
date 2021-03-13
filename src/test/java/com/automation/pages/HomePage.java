@@ -20,11 +20,20 @@ public class HomePage {
     @FindBy(xpath="(//a[@class='product_img_link']/img)[1]")
     public WebElement product1;
 
+    @FindBy(xpath="(//a[@class='product_img_link']/img)[2]")
+    public WebElement product2;
+
     @FindBy(xpath="//select[@id='group_1']")
     public WebElement sizes;
 
     @FindBy(xpath="//span[normalize-space()='Add to cart']")
     public WebElement addToCart;
+
+    @FindBy(xpath="//span[@title='Continue shopping']//span[1]")
+    public WebElement continueShopping;
+
+    @FindBy(xpath="//span[normalize-space()='Proceed to checkout']")
+    public WebElement proceedToCheckout;
 
 
 
