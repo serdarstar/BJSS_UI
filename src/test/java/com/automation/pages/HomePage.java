@@ -11,13 +11,13 @@ public class HomePage {
         PageFactory.initElements(Driver.get(), this);
     }
 
-    @FindBy(xpath="(//i[@class='icon-eye-open'])[1]")
+    @FindBy(xpath="(//span[.='Quick view'])[1]")
     public WebElement quickView;
 
     @FindBy(xpath="//a[normalize-space()='Sign in']")
     public WebElement signIn;
 
-    @FindBy(xpath="(//div[@class='product-image-container'])[1]")
+    @FindBy(xpath="(//a[@class='product_img_link']/img)[1]")
     public WebElement product1;
 
 
