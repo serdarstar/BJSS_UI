@@ -23,7 +23,7 @@ public class SignInPageSteps extends BasePage {
 
         Thread.sleep(1000);
         myAccountPage.homeButton.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
 
     }

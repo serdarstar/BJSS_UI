@@ -12,7 +12,13 @@ public class HomePage {
     }
 
     @FindBy(xpath="(//span[.='Quick view'])[1]")
-    public WebElement quickView;
+    public WebElement quickView1;
+
+    @FindBy(id="our_price_display")
+    public WebElement price;
+
+    @FindBy(xpath="(//span[.='Quick view'])[2]")
+    public WebElement quickView2;
 
     @FindBy(xpath="//a[normalize-space()='Sign in']")
     public WebElement signIn;
