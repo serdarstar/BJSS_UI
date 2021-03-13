@@ -31,17 +31,15 @@ public class HomePageSteps extends BasePage {
         Thread.sleep(3000);
     }
 
-    @When("the user changes the size of the item")
-    public void theUserChangesTheSizeOfTheItem() {
-
+    @When("the user changes the size of the item to {string}")
+    public void theUserChangesTheSizeOfTheItemTo(String size) {
         Driver.get().switchTo().frame(1);
         Select select=new Select(homePage.sizes);
-        select.selectByVisibleText("M");
+        select.selectByVisibleText(size);
         List<String> supplierNames = new ArrayList<String>();
         supplierNames.add(select.getFirstSelectedOption().getText());
-
-
     }
+
 
     @When("the user adds the item to cart")
     public void theUserAddsTheItemToCart() throws InterruptedException {
@@ -61,4 +59,5 @@ public class HomePageSteps extends BasePage {
     public void theProceedsToCheckout() {
         homePage.proceedToCheckout.click();
     }
+
 }
