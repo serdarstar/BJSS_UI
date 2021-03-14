@@ -1,6 +1,5 @@
 package com.automation.step_definitions;
 
-import com.automation.utilities.DBUtils;
 import com.automation.utilities.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;

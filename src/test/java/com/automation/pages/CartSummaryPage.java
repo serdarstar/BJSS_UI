@@ -5,13 +5,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class CalendarEventsPage extends BasePage {
+public class CartSummaryPage {
 
-    public CalendarEventsPage() {
+    public CartSummaryPage(){
         PageFactory.initElements(Driver.get(), this);
     }
 
-    @FindBy(css = "[title='Create Calendar event']")
-    public WebElement createCalendarEvent;
+    @FindBy(id="cart_summary")
+    public WebElement cartSummary;
+
+    @FindBy(xpath="//td[@id='total_product']")
+    public WebElement totalProduct;
+
+
+
 
 }

@@ -5,10 +5,16 @@ import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.Driver;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Formatter;
 import java.util.List;
 
 public class HomePageSteps extends BasePage {
@@ -17,6 +23,8 @@ public class HomePageSteps extends BasePage {
     List<Double> itemPrices = new ArrayList<Double>();
 
     HomePage homePage=new HomePage();
+    CartSummaryPage cartSummaryPage=new CartSummaryPage();
+
     @When("the user clicks on quick view of the first item")
     public void theUserClicksOnQuickView() throws InterruptedException {
 
@@ -89,13 +97,50 @@ public class HomePageSteps extends BasePage {
 
     @Then("selected item sizes should be correct")
     public void selectedItemSizesShouldBeCorrect() {
+
+       List<WebElement> actualSizes=cartSummaryPage.cartSummary.findElements(By.xpath("//a[contains(text(),'Size')]"));
+       List<String> actualSizesList=new ArrayList<>();
+        for (int i = 1; i < actualSizes.size(); i++) {
+            String itemSize=actualSizes.get(i).getText().split(":")[2].replace(" ","");
+            actualSizesList.add(itemSize);
+        }
+        Collections.sort(actualSizesList);
+
+        Assert.assertEquals(actualSizesList,selectedSizes);
+
     }
 
     @Then("the prices of the items should be correct")
     public void thePricesOfTheItemsShouldBeCorrect() {
+
+        List<WebElement> actualPrices=cartSummaryPage.cartSummary.findElements(By.xpath("//td[@class='cart_total']"));
+
+        List<Double> actualPricesList=new ArrayList<>();
+        for (int i = 0; i < actualPrices.size(); i++) {
+            double itemPrice=Double.parseDouble(actualPrices.get(i).getText().replace("$",""));
+            actualPricesList.add(itemPrice);
+        }
+
+        Assert.assertEquals(actualPricesList,itemPrices);
+
+
     }
 
-    @Then("the number of items in the cart should be correct")
-    public void theNumberOfItemsInTheCartShouldBeCorrect() {
+    @Then("total products should be total of the added items")
+    public void totalProductsShouldBeTotalOfTheAddedItems() {
+
+        double totalProducts=0;
+        for (int i = 0; i < itemPrices.size(); i++) {
+            totalProducts+=itemPrices.get(i);
+        }
+        Formatter fmt = new Formatter();
+        fmt.format("%.2f", totalProducts);
+
+        double actualTotal= Double.parseDouble( cartSummaryPage.totalProduct.getText().replace("$",""));
+
+        System.out.println("totalProducts = " + totalProducts);
+        System.out.println("actualTotal = " + actualTotal);
+
+        // Assert.assertEquals(totalProducts,actualTotal);
     }
 }

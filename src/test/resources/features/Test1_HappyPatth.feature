@@ -14,7 +14,7 @@ Feature: Users should be able to login
     When the proceeds to checkout
     Then selected item sizes should be correct
     Then the prices of the items should be correct
-    Then the number of items in the cart should be correct
+    Then total products should be total of the added items
     Then total price should be total of the items in the cart plus shipping
 
 
