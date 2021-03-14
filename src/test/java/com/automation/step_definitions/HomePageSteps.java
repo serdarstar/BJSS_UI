@@ -3,6 +3,7 @@ package com.automation.step_definitions;
 import com.automation.pages.*;
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.Driver;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -24,6 +25,12 @@ public class HomePageSteps extends BasePage {
 
     HomePage homePage=new HomePage();
     CartSummaryPage cartSummaryPage=new CartSummaryPage();
+
+    @Given("the user is on the homePage")
+    public void theUserIsOnTheHomePage() {
+        MyAccountPage myAccountPage = new MyAccountPage();
+        myAccountPage.homeButton.click();
+    }
 
     @When("the user clicks on quick view of the first item")
     public void theUserClicksOnQuickView() throws InterruptedException {
@@ -56,7 +63,6 @@ public class HomePageSteps extends BasePage {
     public void theUserClicksOnContinueShopping() {
         BrowserUtils.waitForVisibility(homePage.continueShopping,10);
         homePage.continueShopping.click();
-
         BrowserUtils.waitFor(3);
 
     }
@@ -84,10 +90,12 @@ public class HomePageSteps extends BasePage {
     public void theUserClicksOnQuickViewOfTheSecondItem() throws InterruptedException {
 
         Actions actions=new Actions(Driver.get());
+        Thread.sleep(2000);
         actions.moveToElement(homePage.product2).perform();
+
         homePage.quickView2.click();
         // homePage.quickView.click();
-        Thread.sleep(1000);
+
     }
 
     @Then("total price should be total of the items in the cart plus shipping")
@@ -143,4 +151,6 @@ public class HomePageSteps extends BasePage {
 
         // Assert.assertEquals(totalProducts,actualTotal);
     }
+
+
 }
