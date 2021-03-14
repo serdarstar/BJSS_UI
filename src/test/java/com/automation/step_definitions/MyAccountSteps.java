@@ -30,7 +30,7 @@ public class MyAccountSteps extends BasePage {
 
     @When("the user sees the order history")
     public void theUserSeesTheOrderHistory() {
-        expectedOrderDate = myAccountPage.expectedOrderDate.getText();
+        expectedOrderDate = myAccountPage.expectedOrderDate.getText() + "s";
     }
 
     @When("the user clicks the order reference")
