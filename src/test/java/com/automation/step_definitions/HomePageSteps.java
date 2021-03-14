@@ -20,7 +20,7 @@ import java.util.List;
 public class HomePageSteps extends BasePage {
 
     List<String> selectedSizes = new ArrayList<String>();
-    List<Double> itemPrices = new ArrayList<Double>();
+    List<Float> itemPrices = new ArrayList<>();
 
     HomePage homePage=new HomePage();
     CartSummaryPage cartSummaryPage=new CartSummaryPage();
@@ -41,7 +41,7 @@ public class HomePageSteps extends BasePage {
         Select select=new Select(homePage.sizes);
         select.selectByVisibleText(size);
         selectedSizes.add(select.getFirstSelectedOption().getText());
-        itemPrices.add(Double.parseDouble(homePage.price.getText().replace("$","")));
+        itemPrices.add(Float.parseFloat(homePage.price.getText().replace("$","")));
     }
 
 
@@ -72,7 +72,7 @@ public class HomePageSteps extends BasePage {
         Driver.get().switchTo().frame(1);
         Select select=new Select(homePage.sizes);
         selectedSizes.add(select.getFirstSelectedOption().getText());
-        itemPrices.add(Double.parseDouble(homePage.price.getText().replace("$","")));
+        itemPrices.add(Float.parseFloat(homePage.price.getText().replace("$","")));
         selectedSizes.size();
         itemPrices.size();
         BrowserUtils.waitForVisibility(homePage.addToCart,10);
@@ -115,11 +115,13 @@ public class HomePageSteps extends BasePage {
 
         List<WebElement> actualPrices=cartSummaryPage.cartSummary.findElements(By.xpath("//td[@class='cart_total']"));
 
-        List<Double> actualPricesList=new ArrayList<>();
+        List<Float> actualPricesList=new ArrayList<>();
         for (int i = 0; i < actualPrices.size(); i++) {
-            double itemPrice=Double.parseDouble(actualPrices.get(i).getText().replace("$",""));
+            float itemPrice=Float.parseFloat(actualPrices.get(i).getText().replace("$",""));
             actualPricesList.add(itemPrice);
+            System.out.println("itemPrice = " + itemPrice);
         }
+
 
         Assert.assertEquals(actualPricesList,itemPrices);
 
@@ -129,14 +131,12 @@ public class HomePageSteps extends BasePage {
     @Then("total products should be total of the added items")
     public void totalProductsShouldBeTotalOfTheAddedItems() {
 
-        double totalProducts=0;
+        float totalProducts=0;
         for (int i = 0; i < itemPrices.size(); i++) {
             totalProducts+=itemPrices.get(i);
         }
-        Formatter fmt = new Formatter();
-        fmt.format("%.2f", totalProducts);
 
-        double actualTotal= Double.parseDouble( cartSummaryPage.totalProduct.getText().replace("$",""));
+        float actualTotal= Float.parseFloat( cartSummaryPage.totalProduct.getText().replace("$",""));
 
         System.out.println("totalProducts = " + totalProducts);
         System.out.println("actualTotal = " + actualTotal);
