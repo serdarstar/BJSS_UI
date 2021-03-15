@@ -15,35 +15,35 @@ import org.openqa.selenium.support.ui.Select;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Formatter;
 import java.util.List;
 
 public class HomePageSteps extends BasePage {
 
+    private static DecimalFormat df = new DecimalFormat("0.00");
     List<String> selectedSizes = new ArrayList<String>();
     List<Float> itemPrices = new ArrayList<>();
 
     HomePage homePage=new HomePage();
     CartSummaryPage cartSummaryPage=new CartSummaryPage();
+    PaymentAddressPage paymentAddressPage=new PaymentAddressPage();
+    PaymentShippingPage paymentShippingPage=new PaymentShippingPage();
+    PaymentPage paymentPage=new PaymentPage();
+    OrderSummaryPage orderSummaryPage =new OrderSummaryPage();
+    ConfirmationPage confirmationPage=new ConfirmationPage();
+    MyAccountPage myAccountPage=new MyAccountPage();
 
-    @Given("the user is on the homePage")
-    public void theUserIsOnTheHomePage() {
-        MyAccountPage myAccountPage = new MyAccountPage();
-        myAccountPage.homeButton.click();
-    }
-
-    @When("the user clicks on quick view of the first item")
+    @Given("the user clicks on quick view of the first item")
     public void theUserClicksOnQuickView() throws InterruptedException {
-
+        BrowserUtils.waitForVisibility(myAccountPage.homeButton,10);
+        myAccountPage.homeButton.click();
         Actions actions=new Actions(Driver.get());
         actions.moveToElement(homePage.product1).perform();
         homePage.quickView1.click();
-       // homePage.quickView.click();
-        Thread.sleep(1000);
     }
 
     @When("the user changes the size of the item to {string}")
     public void theUserChangesTheSizeOfTheItemTo(String size) {
+        BrowserUtils.waitFor(1);
         Driver.get().switchTo().frame(1);
         Select select=new Select(homePage.sizes);
         select.selectByVisibleText(size);
@@ -51,18 +51,19 @@ public class HomePageSteps extends BasePage {
         itemPrices.add(Float.parseFloat(homePage.price.getText().replace("$","")));
     }
 
+
     @When("the user adds the item to cart")
     public void theUserAddsTheItemToCart() throws InterruptedException {
         BrowserUtils.waitForVisibility(homePage.addToCart,10);
         homePage.addToCart.click();
-        Thread.sleep(1000);
+        BrowserUtils.waitFor(1);
     }
 
     @When("the user clicks on continue shopping")
     public void theUserClicksOnContinueShopping() {
         BrowserUtils.waitForVisibility(homePage.continueShopping,10);
         homePage.continueShopping.click();
-        BrowserUtils.waitFor(3);
+        BrowserUtils.waitFor(1);
 
     }
 
@@ -82,31 +83,34 @@ public class HomePageSteps extends BasePage {
         itemPrices.size();
         BrowserUtils.waitForVisibility(homePage.addToCart,10);
         homePage.addToCart.click();
-        Thread.sleep(1000);
+        BrowserUtils.waitFor(1);
     }
 
     @When("the user clicks on quick view of the second item")
     public void theUserClicksOnQuickViewOfTheSecondItem() throws InterruptedException {
 
         Actions actions=new Actions(Driver.get());
-        Thread.sleep(2000);
         actions.moveToElement(homePage.product2).perform();
-
         homePage.quickView2.click();
-        // homePage.quickView.click();
-
+        BrowserUtils.waitFor(1);
     }
 
     @Then("total price should be total of the items in the cart plus shipping")
     public void totalPriceShouldBeTotalOfTheItemsInTheCartPlusShipping() {
+        float total= Float.parseFloat( cartSummaryPage.total.getText().replace("$",""));
+        float shippingCost= Float.parseFloat( cartSummaryPage.shippingCost.getText().replace("$",""));
+        float totalProduct= Float.parseFloat( cartSummaryPage.totalProduct.getText().replace("$",""));
+
+        float expectedTotal=shippingCost+totalProduct;
+        Assert.assertEquals(df.format(total),(df.format(expectedTotal)));
 
     }
 
     @Then("selected item sizes should be correct")
     public void selectedItemSizesShouldBeCorrect() {
 
-       List<WebElement> actualSizes=cartSummaryPage.cartSummary.findElements(By.xpath("//a[contains(text(),'Size')]"));
-       List<String> actualSizesList=new ArrayList<>();
+        List<WebElement> actualSizes=cartSummaryPage.cartSummary.findElements(By.xpath("//a[contains(text(),'Size')]"));
+        List<String> actualSizesList=new ArrayList<>();
         for (int i = 1; i < actualSizes.size(); i++) {
             String itemSize=actualSizes.get(i).getText().split(":")[2].replace(" ","");
             actualSizesList.add(itemSize);
@@ -126,12 +130,9 @@ public class HomePageSteps extends BasePage {
         for (int i = 0; i < actualPrices.size(); i++) {
             float itemPrice=Float.parseFloat(actualPrices.get(i).getText().replace("$",""));
             actualPricesList.add(itemPrice);
-            System.out.println("itemPrice = " + itemPrice);
         }
 
-
         Assert.assertEquals(actualPricesList,itemPrices);
-
 
     }
 
@@ -145,12 +146,29 @@ public class HomePageSteps extends BasePage {
 
         float actualTotal= Float.parseFloat( cartSummaryPage.totalProduct.getText().replace("$",""));
 
-        System.out.println("totalProducts = " + totalProducts);
-        System.out.println("actualTotal = " + actualTotal);
-
-        // Assert.assertEquals(totalProducts,actualTotal);
+        Assert.assertEquals(df.format(totalProducts),df.format(actualTotal));
     }
 
-    
+    @Then("the user should be able to pay by wire")
+    public void theUserShouldBeAbleToPayByWire() {
+        BrowserUtils.waitForVisibility(cartSummaryPage.proceedToCheckout,10);
+        cartSummaryPage.proceedToCheckout.click();
+
+        BrowserUtils.waitForVisibility(paymentAddressPage.proceedToCheckout,10);
+        paymentAddressPage.proceedToCheckout.click();
+
+        BrowserUtils.waitForVisibility(paymentShippingPage.proceedToCheckout,10);
+        paymentShippingPage.agreeToTerms.click();
+        paymentShippingPage.proceedToCheckout.click();
+
+        BrowserUtils.waitForVisibility(paymentPage.wireTransfer,10);
+        paymentPage.wireTransfer.click();
+
+        BrowserUtils.waitForVisibility(orderSummaryPage.confirmation,10);
+        orderSummaryPage.confirmation.click();
+
+    }
+
+
 
 }
