@@ -51,7 +51,6 @@ public class HomePageSteps extends BasePage {
         itemPrices.add(Float.parseFloat(homePage.price.getText().replace("$","")));
     }
 
-
     @When("the user adds the item to cart")
     public void theUserAddsTheItemToCart() throws InterruptedException {
         BrowserUtils.waitForVisibility(homePage.addToCart,10);
