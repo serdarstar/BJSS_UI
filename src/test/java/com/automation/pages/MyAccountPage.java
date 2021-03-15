@@ -18,10 +18,32 @@ public class MyAccountPage extends BasePage {
     @FindBy(xpath = "//span[normalize-space()='Home']")
     public WebElement homeButton;
 
-
     public Select days(){
         return new Select(days);
     }
+
+    //----------------------------------------------------------------
+    @FindBy(xpath = "//span[.='Order history and details']")
+    public WebElement orderHistoryButton;
+
+    @FindBy(xpath = "//tbody/tr/td[2]")
+    public WebElement expectedOrderDate;
+
+    @FindBy(xpath = "(//a[@class ='color-myaccount'])[1]")
+    public WebElement orderReference;
+
+    @FindBy(name = "id_product")
+    public WebElement dropdown;
+
+    @FindBy(tagName = "textarea")
+    public WebElement commentArea;
+
+    @FindBy(xpath = "//span[.='Send']")
+    public WebElement sendButton;
+
+    @FindBy(xpath = "(//tr[@class='first_item item'])[2]/td[2]")
+    public WebElement messageText;
+
 
 
 }
