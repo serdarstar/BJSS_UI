@@ -19,8 +19,6 @@ public class LoginStepDefs extends BasePage {
         Driver.get().get(url);
     }
 
-
-
     @When("the user navigates to Sign In page")
     public void theUserNavigatesToSignInPage() {
         HomePage loginPage = new HomePage();

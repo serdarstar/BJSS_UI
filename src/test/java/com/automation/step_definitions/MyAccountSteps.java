@@ -1,36 +1,38 @@
 package com.automation.step_definitions;
 
-import com.automation.pages.AccountInfo;
 import com.automation.pages.BasePage;
+import com.automation.pages.ConfirmationPage;
 import com.automation.pages.MyAccountPage;
-import io.cucumber.java.en.And;
+import com.automation.utilities.BrowserUtils;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.support.ui.Select;
 
-public class MyAccountSteps extends BasePage {
-    AccountInfo accountInfo=new AccountInfo();
-    MyAccountPage myAccountPage=new MyAccountPage();
-    String expectedOrderDate;
-    String expectedMessage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-    @When("the user fills out new account info")
-    public void theUserFillsOutNewAccountInfo() throws InterruptedException {
-        Thread.sleep(1000);
-        myAccountPage.homeButton.click();
-        Thread.sleep(2000);
-    }
-    //-----------------------------------------------
+public class MyAccountSteps extends BasePage {
+    SimpleDateFormat formatter= new SimpleDateFormat("MM/dd/yyyy");
+    Date date = new Date(System.currentTimeMillis());
+    MyAccountPage myAccountPage=new MyAccountPage();
+    String expectedOrderDate=formatter.format(date);
+    String actualOrderDate;
+    String expectedMessage;
+    ConfirmationPage confirmationPage=new ConfirmationPage();
+
+
     @When("the user clicks the Order history and Details button")
-    public void theUserClicksTheOrderHistoryAndDetailsButton() {
+    public void theUserClicksTheOrderHistoryAndDetailsButton()
+    {
+
         myAccountPage.orderHistoryButton.click();
     }
 
     @When("the user sees the order history")
     public void theUserSeesTheOrderHistory() {
-        expectedOrderDate = myAccountPage.expectedOrderDate.getText() + "s";
+        actualOrderDate = myAccountPage.orderDate.getText() ;
     }
 
     @When("the user clicks the order reference")
@@ -39,9 +41,10 @@ public class MyAccountSteps extends BasePage {
     }
 
     @Then("the user should see the same date as {string}")
-    public void theUserShouldSeeTheSameDateAs(String actualOrderDate) {
+    public void theUserShouldSeeTheSameDateAs(String date) {
 
-        Assert.assertEquals(expectedOrderDate,actualOrderDate);
+        date=expectedOrderDate;
+        Assert.assertEquals(date,actualOrderDate);
 
     }
 
@@ -69,6 +72,9 @@ public class MyAccountSteps extends BasePage {
 
     @Then("the user logs out")
     public void theUserLogsOut() {
+
+        BrowserUtils.waitForVisibility(confirmationPage.signOut,10);
+        confirmationPage.signOut.click();
 
     }
 }
