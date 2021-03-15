@@ -17,6 +17,15 @@ public class CartSummaryPage {
     @FindBy(xpath="//td[@id='total_product']")
     public WebElement totalProduct;
 
+    @FindBy(id="total_price")
+    public WebElement total;
+
+    @FindBy(id="total_shipping")
+    public WebElement shippingCost;
+
+    @FindBy(xpath="//a[@class='button btn btn-default standard-checkout button-medium']//span[contains(text(),'Proceed to checkout')]")
+    public WebElement proceedToCheckout;
+
 
 
 
