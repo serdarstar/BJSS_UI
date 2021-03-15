@@ -3,6 +3,7 @@ package com.automation.step_definitions;
 import com.automation.pages.*;
 import com.automation.utilities.BrowserUtils;
 import com.automation.utilities.Driver;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
@@ -29,10 +30,12 @@ public class HomePageSteps extends BasePage {
     PaymentPage paymentPage=new PaymentPage();
     OrderSummaryPage orderSummaryPage =new OrderSummaryPage();
     ConfirmationPage confirmationPage=new ConfirmationPage();
+    MyAccountPage myAccountPage=new MyAccountPage();
 
-    @When("the user clicks on quick view of the first item")
+    @Given("the user clicks on quick view of the first item")
     public void theUserClicksOnQuickView() throws InterruptedException {
-
+        BrowserUtils.waitForVisibility(myAccountPage.homeButton,10);
+        myAccountPage.homeButton.click();
         Actions actions=new Actions(Driver.get());
         actions.moveToElement(homePage.product1).perform();
         homePage.quickView1.click();
@@ -127,7 +130,6 @@ public class HomePageSteps extends BasePage {
         for (int i = 0; i < actualPrices.size(); i++) {
             float itemPrice=Float.parseFloat(actualPrices.get(i).getText().replace("$",""));
             actualPricesList.add(itemPrice);
-            System.out.println("itemPrice = " + itemPrice);
         }
 
         Assert.assertEquals(actualPricesList,itemPrices);
@@ -143,9 +145,6 @@ public class HomePageSteps extends BasePage {
         }
 
         float actualTotal= Float.parseFloat( cartSummaryPage.totalProduct.getText().replace("$",""));
-
-        System.out.println("totalProducts = " + df.format(totalProducts));
-        System.out.println("actualTotal = " + actualTotal);
 
          Assert.assertEquals(df.format(totalProducts),df.format(actualTotal));
     }
@@ -168,7 +167,7 @@ public class HomePageSteps extends BasePage {
         BrowserUtils.waitForVisibility(orderSummaryPage.confirmation,10);
         orderSummaryPage.confirmation.click();
 
-        BrowserUtils.waitForVisibility(confirmationPage.signOut,10);
-        confirmationPage.signOut.click();
      }
+
+
 }

@@ -12,22 +12,14 @@ public class MyAccountPage extends BasePage {
         PageFactory.initElements(Driver.get(), this);
     }
 
-    @FindBy(id = "days")
-    public WebElement days;
-
     @FindBy(xpath = "//span[normalize-space()='Home']")
     public WebElement homeButton;
 
-    public Select days(){
-        return new Select(days);
-    }
-
-    //----------------------------------------------------------------
     @FindBy(xpath = "//span[.='Order history and details']")
     public WebElement orderHistoryButton;
 
     @FindBy(xpath = "//tbody/tr/td[2]")
-    public WebElement expectedOrderDate;
+    public WebElement orderDate;
 
     @FindBy(xpath = "(//a[@class ='color-myaccount'])[1]")
     public WebElement orderReference;
